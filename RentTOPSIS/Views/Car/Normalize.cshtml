@@ -1,0 +1,30 @@
+﻿@model List<RentTOPSIS.Models.ViewModels.ArabalarViewModel>
+
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Marka</th>
+            <th>Gunluk Ucret</th>
+            <th>Yakit Ekonomisi</th>
+            <th>Bagaj Hacmi</th>
+            <th>Arac Donanimi</th>
+            <th>Km Sinirlamasi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@String.Format("{0:0.####}", item.ArabaAdi)</td>
+                <td>@String.Format("{0:0.####}", item.GunlukUcret)</td>
+                <td>@String.Format("{0:0.####}", item.YakitEkonomisi)</td>
+                <td>@String.Format("{0:0.####}", item.BagajHacmi)</td>
+                <td>@String.Format("{0:0.####}", item.AracDonanimi)</td>
+                <td>@String.Format("{0:0.####}", item.KmSinirlamasi)</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<RentTOPSIS.Models.Arabalar>
+@using System.Web.Optimization
+@using Microsoft.AspNetCore.Identity
+@inject Microsoft.AspNetCore.Identity.UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@if(User.IsInRole("Admin"))
+{
+    <a asp-action="Add" class="btn btn-success">Yeni Araba Ekle</a>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Marka
+            </th>
+            <th>
+                Model
+            </th>
+            <th>
+                Gunluk Ucret
+            </th>
+            <th>
+                Yakit Ekonomisi
+            </th>
+            <th>
+                Bagaj Hacmi
+            </th>
+            <th>
+                Arac Donanimi
+            </th>
+            <th>
+                Km Sinirlamasi
+            </th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th>
+
+                </th>
+            }      
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Marka)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GunlukUcret)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YakitEkonomisi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BagajHacmi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AracDonanimi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KmSinirlamasi)
+                </td>
+                <td>
+                   @if(User.IsInRole("Admin"))
+                   {
+                    <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+                   }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#normalizeModal">Normalize Matris</button>
+<button type="button" class="btn btn-primary float-end" onclick="location.href='@Url.Action("CalculateWeightedNormalize","Car")'">Ağırlıklandırılmış Normalize Matris</button>
+
+
+
+<div class="modal fade" id="normalizeModal" tabindex="-1" role="dialog" aria-labelledby="normalizeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="normalizeModalLabel">Normalize Matris Sonuclari</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto ;">
+
+                <div class="table-responsive" id="normalize-content">
+                    @* Tablonun Alani *@
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () { // Execute code after the page loads
+        $("#normalizeModal").on("show.bs.modal", function (event) { // When the modal is shown
+            $.ajax({ // Make an AJAX request
+                url: "/Car/Normalize", // URL of the controller action to fetch normalized data
+                type: "GET", // HTTP GET request
+                success: function (data) { // On successful response
+                    $("#normalize-content").html(data); // Populate the modal content with the received data
+                },
+                error: function () { // On error
+                    $("#normalize-content").html("Error loading normalized data."); // Display an error message
+                }
+            });
+        });
+    });
+</script>

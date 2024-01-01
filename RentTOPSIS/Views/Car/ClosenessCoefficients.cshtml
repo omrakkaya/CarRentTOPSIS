@@ -1,0 +1,41 @@
+﻿@model IEnumerable<RentTOPSIS.Models.ViewModels.ClosenessCoefficient>
+
+@{
+    var maxCoefficient = Model.Max(item => item.Coefficient);
+    var minCoefficient = Model.Min(item => item.Coefficient);
+}
+
+<h2>İdeal Çözüm</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Car Name</th>
+                <th>Closeness Coefficient</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ArabaAdi</td>
+                    <td>@String.Format("{0:0.####}", item.Coefficient)</td>
+                    @if (item.Coefficient == maxCoefficient)
+                    {
+                        <td style="background-color: green; color: white;">Bu araba sizin icin uygundur</td>
+                    }
+                    @if (item.Coefficient == minCoefficient)
+                    {
+                        <td style="background-color: red; color: white;">Bu araba sizin icin uygun degildir</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No closeness coefficients to display.</p>
+}

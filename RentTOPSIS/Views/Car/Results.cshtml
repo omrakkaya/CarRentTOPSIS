@@ -1,0 +1,55 @@
+﻿@model RentTOPSIS.Models.ViewModels.ResultsViewModel
+
+@{
+    ViewBag.Title = "TOPSIS Results";
+}
+
+<h2>TOPSIS Analuz Sonuclari</h2>
+
+<h3>Weighted Normalized Options</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Marka</th>
+            <th>Gunluk Ucret</th>
+            <th>Yakit Ekonomisi</th>
+            <th>Bagaj Hacmi</th>
+            <th>Arac Donanimi</th>
+            <th>Km Sinirlamasi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.WeightedNormalizedOptions)
+        {
+            <tr>
+                <td>@item.ArabaAdi</td>
+                <td>@item.GunlukUcret</td>
+                <td>@item.YakitEkonomisi</td>
+                <td>@item.BagajHacmi</td>
+                <td>@item.AracDonanimi</td>
+                <td>@item.KmSinirlamasi</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* <h3>Separation Measures</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Car Name</th>
+            <th>Positive Separation</th>
+            <th>Negative Separation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var measure in Model.SeparationMeasures)
+        {
+            <tr>
+                <td>@measure.ArabaAdi</td>
+                <td>@measure.PositiveSeparation.ToString("N2")</td>
+                <td>@measure.NegativeSeparation.ToString("N2")</td>
+            </tr>
+        }
+    </tbody>
+</table> *@

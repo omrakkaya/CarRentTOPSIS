@@ -1,0 +1,72 @@
+﻿@model RentTOPSIS.Models.Arabalar
+
+@{
+    ViewData["Title"] = "Ekle";
+}
+
+<style>
+    .spaced-button {
+        margin-right: 10px;
+    }
+</style>
+
+<h1>Yeni Araba Ekle</h1>
+
+<h4>Arabalar</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Marka" class="control-label"></label>
+                <input asp-for="Marka" class="form-control" />
+                <span asp-validation-for="Marka" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model" class="control-label"></label>
+                <input asp-for="Model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GunlukUcret" class="control-label"></label>
+                <input asp-for="GunlukUcret" class="form-control" />
+                <span asp-validation-for="GunlukUcret" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YakitEkonomisi" class="control-label"></label>
+                <input asp-for="YakitEkonomisi" class="form-control" />
+                <span asp-validation-for="YakitEkonomisi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BagajHacmi" class="control-label"></label>
+                <input asp-for="BagajHacmi" class="form-control" />
+                <span asp-validation-for="BagajHacmi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AracDonanimi" class="control-label"></label>
+                <input asp-for="AracDonanimi" class="form-control" />
+                <span asp-validation-for="AracDonanimi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KmSinirlamasi" class="control-label"></label>
+                <input asp-for="KmSinirlamasi" class="form-control" />
+                <span asp-validation-for="KmSinirlamasi" class="text-danger"></span>
+            </div>
+            <div class="d-flex justify-content-start">
+                <div class="form-group mr-2 spaced-button">
+                    <input type="submit" value="Ekle" class="btn btn-success" />
+                </div>
+
+                <div>
+                    <a asp-action="Index" class="btn btn-warning">Listeye Geri Don</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

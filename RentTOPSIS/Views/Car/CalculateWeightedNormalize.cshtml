@@ -1,0 +1,100 @@
+﻿@model RentTOPSIS.Models.ViewModels.ArabalarWeights
+
+@{
+    ViewData["Title"] = "Ağırlıklandırılmış Normalize Matris";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<style>
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control-slider {
+        width: 100%; /* Full width */
+        margin: 10px 0; /* Add some space around the slider */
+    }
+
+</style>
+
+<form asp-action="CalculateWeightedNormalize" method="post">
+    <!-- Daily Fee Weight Slider -->
+    <div class="form-group">
+        <label for="GunlukUcretWeight">Gunluk Ucret Agirligi (0-1): <span id="GunlukUcretWeightVal">@Model.GunlukUcretWeight</span></label>
+        <input type="range" class="form-control-slider" id="GunlukUcretWeight" name="GunlukUcretWeight" step="0.01" min="0" max="1" value="@Model.GunlukUcretWeight" required>
+    </div>
+    <!-- Fuel Economy Weight Slider -->
+    <div class="form-group">
+        <label for="YakitEkonomisiWeight">Yakit Ekonomisi Agirligi (0-1): <span id="YakitEkonomisiWeightVal">@Model.YakitEkonomisiWeight</span></label>
+        <input type="range" class="form-control-slider" id="YakitEkonomisiWeight" name="YakitEkonomisiWeight" step="0.01" min="0" max="1" value="@Model.YakitEkonomisiWeight" required>
+    </div>
+    <!-- Luggage Capacity Weight Slider -->
+    <div class="form-group">
+        <label for="BagajHacmiWeight">Bagaj Hacmi Agirligi (0-1): <span id="BagajHacmiWeightVal">@Model.BagajHacmiWeight</span></label>
+        <input type="range" class="form-control-slider" id="BagajHacmiWeight" name="BagajHacmiWeight" step="0.01" min="0" max="1" value="@Model.BagajHacmiWeight" required>
+    </div>
+    <!-- Vehicle Equipment Weight Slider -->
+    <div class="form-group">
+        <label for="AracDonanimiWeight">Arac Donanim Agirligi (0-1): <span id="AracDonanimiWeightVal">@Model.AracDonanimiWeight</span></label>
+        <input type="range" class="form-control-slider" id="AracDonanimiWeight" name="AracDonanimiWeight" step="0.01" min="0" max="1" value="@Model.AracDonanimiWeight" required>
+    </div>
+    <!-- Km Limitation Weight Slider -->
+    <div class="form-group">
+        <label for="KmSinirlamasiWeight">Km Sinirlamasi Agirligi (0-1): <span id="KmSinirlamasiWeightVal">@Model.KmSinirlamasiWeight</span></label>
+        <input type="range" class="form-control-slider" id="KmSinirlamasiWeight" name="KmSinirlamasiWeight" step="0.01" min="0" max="1" value="@Model.KmSinirlamasiWeight" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Hesapla</button>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var sliders = $("input[type='range']");
+            var calculateButton = $("button[type='submit']");
+
+            // Function to update slider values display
+            function updateSliderValuesDisplay() {
+                sliders.each(function () {
+                    var id = $(this).attr('id');
+                    var val = parseFloat($(this).val());
+                    $("#" + id + "Val").text(val.toFixed(2));
+                });
+            }
+
+            // Function to update maximum values of sliders and check if total is 1
+            function updateSlidersMaxValues(exceptSlider) {
+                var total = 0;
+                sliders.each(function () {
+                    total += parseFloat($(this).val());
+                });
+
+                // Update remaining value for other sliders
+                var remaining = 1 - total;
+                sliders.not(exceptSlider).each(function () {
+                    var currentVal = parseFloat($(this).val());
+                    $(this).attr('max', Math.min(1, currentVal + remaining).toFixed(2));
+                });
+
+                // Enable or disable calculate button
+                calculateButton.prop('disabled', total.toFixed(2) != '1.00');
+            }
+
+            // Initialize and set up event listeners
+            sliders.on("input", function () {
+                var changedSlider = $(this);
+                updateSliderValuesDisplay();
+                updateSlidersMaxValues(changedSlider);
+            });
+
+            // Initial setup
+            updateSliderValuesDisplay();
+            updateSlidersMaxValues(null);
+        });
+    </script>
+}
+
+
+
+
+

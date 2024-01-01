@@ -1,0 +1,35 @@
+﻿@model IEnumerable<RentTOPSIS.Models.ViewModels.SeparationMeasure>
+
+@{
+    ViewData["Title"] = "İdeal ve Negatif İdeal çözüm değerleri ve uzaklık değerleri";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Marka</th>
+                <th>Positive Separation</th>
+                <th>Negative Separation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ArabaAdi</td> 
+                    <td>@String.Format("{0:0.####}", item.PositiveSeparation)</td>
+                    <td>@String.Format("{0:0.####}", item.NegativeSeparation)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No separation measures to display.</p>
+} 
+<a href="@Url.Action("CalculateClosenessCoefficients", "Car")" class="btn btn-primary">İdeal Çözüme Yakınlığı</a>
